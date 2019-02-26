@@ -1,6 +1,7 @@
 const utils = {
   regs: {
-    text: /\{\{([^}]+)\}\}/g
+    text: /\{\{([^}]+)\}\}/g,
+    component: /#\{([^}]+)\}/g
   },
   createElement(el) {
     return el.nodeType === 1 ? el : document.querySelector(el)
@@ -40,7 +41,7 @@ const utils = {
     }
   },
   getComponent(data, str) {
-    return str.replace(this.regs.text, (...args) => {
+    return str.replace(this.regs.component, (...args) => {
       return args[1].split(".").reduce((prev, next) => prev[next], data)
     })
   },

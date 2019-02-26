@@ -6,7 +6,6 @@ import Watcher from './watcher'
 import Compile from './compile'
 // import render from './render'
 import _ from './utils'
-// import event from './event'
 import Observer from "./observer";
 
 class RV {
@@ -19,7 +18,7 @@ class RV {
     const {
       data,
       component = {},
-      events,
+      events = {},
       elementList,
     } = options
 
@@ -36,9 +35,7 @@ class RV {
         },
         set(target, key, value) {
           let res = Reflect.set(target, key, value)
-          that.subscribe.forEach(watcher => {
-            watcher.update()
-          })
+          that.notify()
           return res
         }
       }
@@ -50,10 +47,13 @@ class RV {
   addSub(fn) {
     this.subscribe.push(fn)
   }
-  notify(key) {
-    this.subscribe[key].forEach(watcher => {
-      watcher.update(key)
+  notify() {
+    this.subscribe.forEach(watcher => {
+      watcher.update()
     })
+  }
+  setData(data) {
+    this.$data = Object.assign(this.$data, data)
   }
 }
 

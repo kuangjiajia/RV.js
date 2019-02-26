@@ -57,6 +57,8 @@ export default class {
       } else {
         parentNode.insertBefore(newNode, nodeArr[index])
       }
+
+      this.compile(parentNode.childNodes[index])
       this.rv.component[tagName].props = {}
     }
 
@@ -65,6 +67,9 @@ export default class {
       if (attrName.includes("r-")) {
         attrName = attrName.slice(2)
         c[attrName](node, this.rv, attr.value)
+      } else if (attrName.includes("@")) {
+        const eventName = attrName.slice(1)
+        c["event"][eventName](node, this.rv, attr.value)
       }
     })
 

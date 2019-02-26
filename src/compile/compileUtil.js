@@ -27,6 +27,13 @@ export default {
     })
     updateFn && updateFn(node, value)
   },
+  event: {
+    click(node, rv, val) {
+      node.addEventListener("click", e => {
+        rv.events[val] && rv.events[val]()
+      })
+    }
+  },
   updateFn: {
     textUpdate: function (node, content) {
       node.textContent = content
