@@ -1,6 +1,5 @@
 import {
-  Component,
-  registComponent
+  Component
 } from "./component"
 
 import Watcher from './watcher'
@@ -12,7 +11,7 @@ import Observer from "./observer";
 
 class RV {
   constructor(el, options) {
-    this.subscribe = {}
+    this.subscribe = []
     this.$el = _.createElement(el)
     this.init(options)
   }
@@ -34,7 +33,7 @@ class RV {
         },
         set(target, key, value) {
           let res = Reflect.set(target, key, value)
-          that.subscribe[key] && that.subscribe[key].forEach(watcher => {
+          that.subscribe.forEach(watcher => {
             watcher.update()
           })
           return res
@@ -45,13 +44,8 @@ class RV {
       new Compile(this.$el, this)
     }
   }
-  addSub(key, fn) {
-    console.log(this)
-    if (this.subscribe[key]) {
-      this.subscribe[key].push(fn)
-    } else {
-      this.subscribe[key] = [fn]
-    }
+  addSub(fn) {
+    this.subscribe.push(fn)
   }
   notify(key) {
     this.subscribe[key].forEach(watcher => {

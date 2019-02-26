@@ -8,6 +8,9 @@ var kjj = new RV("#root", {
     info: {
       hobby: "sleep"
     }
+  },
+  component: {
+
   }
 })
 

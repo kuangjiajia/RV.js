@@ -20,6 +20,11 @@ const utils = {
   getTextVal(rv, key) {
     return key.split(".").reduce((prev, next) => prev[next], rv.$data)
   },
+  getVal(rv, str) {
+    return str.replace(this.regs.text, (...args) => {
+      return this.getTextVal(rv, args[1])
+    })
+  },
   isObject(o) {
     return Object.prototype.toString.call(o) === `[object Object]`
   },

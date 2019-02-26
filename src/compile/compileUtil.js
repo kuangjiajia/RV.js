@@ -5,8 +5,9 @@ export default {
   text: function (node, rv, content) {
     const updateFn = this.updateFn["textUpdate"]
     var value = content.replace(_.regs.text, (...args) => {
-      rv.addSub(args[1], new Watcher(rv, args[1], newVal => {
-        updateFn && updateFn(node, newVal)
+      rv.addSub(new Watcher(rv, args[1], () => {
+        console.log(_.getTextVal(rv, content))
+        updateFn && updateFn(node, _.getVal(rv, content))
       }))
       return _.getTextVal(rv, args[1])
     })
@@ -17,7 +18,7 @@ export default {
     const updateFn = this.updateFn["modelUpdate"]
     const value = _.getTextVal(rv, content)
     console.log(content)
-    rv.addSub(content, new Watcher(rv, content, newVal => {
+    rv.addSub(new Watcher(rv, content, newVal => {
       updateFn && updateFn(node, newVal)
     }))
 

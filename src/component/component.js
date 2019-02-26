@@ -1,3 +1,8 @@
-export default function () {
-  console.log(123)
+export default class {
+  constructor(name) {
+    this.name = name
+  }
+  render() {
+
+  }
 }
