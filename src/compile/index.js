@@ -27,6 +27,7 @@ export default class {
       if (_.isElement(node)) {
         //element节点
         //编译elment的属性什么的
+
         this.compileElement(node)
         //继续向下编译
         this.compile(node)
@@ -38,6 +39,27 @@ export default class {
   }
   compileElement(node) {
     const attrs = node.attributes
+
+    //处理组件的渲染
+    const tagName = node.tagName.toLowerCase()
+    if (this.rv.componentNames.includes(tagName)) {
+      Array.from(attrs).forEach(attr => {
+        let attrName = attr.name
+        this.rv.component[tagName].props[attrName] = attr.value
+      })
+      let parentNode = node.parentNode
+      let nodeArr = parentNode.childNodes
+      var index = _.getIndex(nodeArr, node)
+      parentNode.removeChild(node)
+      const newNode = this.rv.component[tagName].render()
+      if (nodeArr.length === index) {
+        parentNode.appendChild(newNode)
+      } else {
+        parentNode.insertBefore(newNode, nodeArr[index])
+      }
+      this.rv.component[tagName].props = {}
+    }
+
     Array.from(attrs).forEach(attr => {
       let attrName = attr.name
       if (attrName.includes("r-")) {
@@ -45,6 +67,7 @@ export default class {
         c[attrName](node, this.rv, attr.value)
       }
     })
+
   }
   compileText(node) {
     const content = node.textContent

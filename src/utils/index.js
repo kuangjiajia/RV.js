@@ -30,7 +30,20 @@ const utils = {
   },
   isArray(o) {
     return Object.prototype.toString.call(o) === `[object Array]`
-  }
+  },
+  getIndex(arr, child) {
+    let len = arr.length
+    for (let i = 0; i < len; i++) {
+      if (arr[i] === child) {
+        return i
+      }
+    }
+  },
+  getComponent(data, str) {
+    return str.replace(this.regs.text, (...args) => {
+      return args[1].split(".").reduce((prev, next) => prev[next], data)
+    })
+  },
 
 }
 

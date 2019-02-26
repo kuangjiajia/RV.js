@@ -4,9 +4,9 @@ import Watcher from '../watcher'
 export default {
   text: function (node, rv, content) {
     const updateFn = this.updateFn["textUpdate"]
+
     var value = content.replace(_.regs.text, (...args) => {
       rv.addSub(new Watcher(rv, args[1], () => {
-        console.log(_.getTextVal(rv, content))
         updateFn && updateFn(node, _.getVal(rv, content))
       }))
       return _.getTextVal(rv, args[1])
@@ -17,7 +17,6 @@ export default {
   model: function (node, rv, content) {
     const updateFn = this.updateFn["modelUpdate"]
     const value = _.getTextVal(rv, content)
-    console.log(content)
     rv.addSub(new Watcher(rv, content, newVal => {
       updateFn && updateFn(node, newVal)
     }))
@@ -34,6 +33,6 @@ export default {
     },
     modelUpdate: function (node, content) {
       node.value = content
-    }
+    },
   }
 }

@@ -18,11 +18,14 @@ class RV {
   init(options) {
     const {
       data,
+      component = {},
       events,
       elementList,
     } = options
 
+    this.componentNames = Object.keys(component).map(i => i.toLocaleLowerCase())
     this.events = events
+    this.component = component
     this.elementList = elementList
 
     var that = this
@@ -54,5 +57,6 @@ class RV {
   }
 }
 
+RV.Component = Component
 
 export default RV
